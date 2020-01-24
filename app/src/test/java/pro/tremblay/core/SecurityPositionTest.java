@@ -17,19 +17,28 @@ package pro.tremblay.core;
 
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.assertj.core.api.Assertions.*;
-import static pro.tremblay.core.BigDecimalUtil.bd;
+import static pro.tremblay.core.SecurityPosition.securityPosition;
 
-public class BigDecimalUtilTest {
+public class SecurityPositionTest {
 
     @Test
-    public void bdInt() {
-        assertThat(bd(4)).isEqualTo("4");
+    public void isFlat_notFlat() {
+        SecurityPosition securityPosition = securityPosition(Security.GOOGL, BigDecimal.TEN);
+        assertThat(securityPosition.isFlat()).isFalse();
     }
 
     @Test
-    public void bdString() {
-        assertThat(bd("4.12")).isEqualTo("4.12");
+    public void isFlat_flat() {
+        SecurityPosition securityPosition = securityPosition(Security.GOOGL, BigDecimal.ZERO);
+        assertThat(securityPosition.isFlat()).isTrue();
     }
 
+    @Test
+    public void testToString() {
+        SecurityPosition securityPosition = securityPosition(Security.GOOGL, BigDecimal.TEN);
+        assertThat(securityPosition.toString()).isEqualTo("SecurityPosition{security=GOOGL, quantity=10}");
+    }
 }

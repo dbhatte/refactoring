@@ -17,19 +17,30 @@ package pro.tremblay.core;
 
 import org.junit.Test;
 
+import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.*;
-import static pro.tremblay.core.BigDecimalUtil.bd;
 
-public class BigDecimalUtilTest {
+public class PriceServiceTest {
+
+    private TimeSource timeSource = new SystemTimeSource();
+    private PriceService priceService = new PriceService(timeSource);
 
     @Test
-    public void bdInt() {
-        assertThat(bd(4)).isEqualTo("4");
+    public void getPrice() {
+        LocalDate now = timeSource.today();
+        LocalDate date = now.withDayOfYear(1);
+        while(!date.isAfter(now)) {
+            assertThat(priceService.getPrice(date, Security.GOOGL)).isNotNull();
+            date = date.plusDays(1);
+        }
     }
 
     @Test
-    public void bdString() {
-        assertThat(bd("4.12")).isEqualTo("4.12");
+    public void getPrice_noPrice() {
+        LocalDate yearsAgo = LocalDate.of(1977, 1, 1);
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> priceService.getPrice(yearsAgo, Security.IBM))
+            .withMessage("No price found at 1977-01-01 for IBM");
     }
-
 }
