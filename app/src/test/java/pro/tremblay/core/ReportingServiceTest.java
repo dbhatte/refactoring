@@ -19,7 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,7 +56,7 @@ public class ReportingServiceTest {
 
     @Test
     public void calculateReturnOnInvestmentYTD_noTransactionAndPosition() {
-        BigDecimal roi = reportingService.calculateReturnOnInvestmentYTD(current, Collections.emptyList());
+        Percentage roi = reportingService.calculateReturnOnInvestmentYTD(current, Collections.emptyList());
         assertThat(roi).isEqualTo("0.00");
     }
 
@@ -71,7 +70,7 @@ public class ReportingServiceTest {
                         .type(TransactionType.DEPOSIT)
                         .date(hundredDaysAgo));
 
-        BigDecimal roi = reportingService.calculateReturnOnInvestmentYTD(current, transactions);
+        Percentage roi = reportingService.calculateReturnOnInvestmentYTD(current, transactions);
         assertThat(roi).isEqualTo("180.00"); // (200$ - 100$) / 100$ * 100% * 360 days / 200 days
     }
 
@@ -90,7 +89,7 @@ public class ReportingServiceTest {
         expect(priceService.getPrice(today, Security.GOOGL)).andStubReturn(amnt(2));
         replay(priceService);
 
-        BigDecimal roi = reportingService.calculateReturnOnInvestmentYTD(current, transactions);
+        Percentage roi = reportingService.calculateReturnOnInvestmentYTD(current, transactions);
 
         // Cash value now: 0, Sec value now: 50 x 2 = 100, Total: 100
         // Cash value initial: 100, Sec value now: 0, Total: 100
@@ -117,7 +116,7 @@ public class ReportingServiceTest {
                 .type(TransactionType.DEPOSIT)
                 .date(hundredDaysAgo.minusDays(1)));
 
-        BigDecimal roi = reportingService.calculateReturnOnInvestmentYTD(current, transactions);
+        Percentage roi = reportingService.calculateReturnOnInvestmentYTD(current, transactions);
 
         // Current cash value = 200$, Current security value = 0$
         // Initial cash value = 50$, Initial cash value = 0$
@@ -128,19 +127,19 @@ public class ReportingServiceTest {
 
     @Test
     public void calculateReturnOnInvestmentYTD_twoCashTransactionsOnTheSameDay() {
-        current.cash(bd(200));
+        current.cash(amnt(200));
 
         Collection<Transaction> transactions = Arrays.asList(
             new Transaction()
-                .cash(bd(100))
+                .cash(amnt(100))
                 .type(TransactionType.DEPOSIT)
                 .date(hundredDaysAgo),
             new Transaction()
-                .cash(bd(50))
+                .cash(amnt(50))
                 .type(TransactionType.DEPOSIT)
                 .date(hundredDaysAgo));
 
-        BigDecimal roi = reportingService.calculateReturnOnInvestmentYTD(current, transactions);
+        Percentage roi = reportingService.calculateReturnOnInvestmentYTD(current, transactions);
 
         // Current cash value = 200$, Current security value = 0$
         // Initial cash value = 50$, Initial cash value = 0$

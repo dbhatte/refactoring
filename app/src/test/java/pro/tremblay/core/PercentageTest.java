@@ -17,26 +17,35 @@ package pro.tremblay.core;
 
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static pro.tremblay.core.SecurityPosition.securityPosition;
+import java.math.BigDecimal;
 
-public class SecurityPositionTest {
+import static pro.tremblay.core.Assertions.assertThat;
+import static pro.tremblay.core.Percentage.pct;
+
+public class PercentageTest {
 
     @Test
-    public void isFlat_notFlat() {
-        SecurityPosition securityPosition = securityPosition(Security.GOOGL, Quantity.ten());
-        assertThat(securityPosition.isFlat()).isFalse();
+    public void hundred() {
+        assertThat(Percentage.hundred()).isEqualTo("100.00");
     }
 
     @Test
-    public void isFlat_flat() {
-        SecurityPosition securityPosition = securityPosition(Security.GOOGL, Quantity.zero());
-        assertThat(securityPosition.isFlat()).isTrue();
+    public void zero() {
+        assertThat(Percentage.zero()).isEqualTo("0.00");
+    }
+
+    @Test
+    public void percentageInteger() {
+        assertThat(pct(12L)).isEqualTo("12.00");
+    }
+
+    @Test
+    public void percentageBigDecimal() {
+        assertThat(pct(BigDecimal.valueOf(12))).isEqualTo("12.00");
     }
 
     @Test
     public void testToString() {
-        SecurityPosition securityPosition = securityPosition(Security.GOOGL, Quantity.ten());
-        assertThat(securityPosition.toString()).isEqualTo("SecurityPosition{security=GOOGL, quantity=10}");
+        assertThat(pct("1.2").toString()).isEqualTo("1.20%");
     }
 }

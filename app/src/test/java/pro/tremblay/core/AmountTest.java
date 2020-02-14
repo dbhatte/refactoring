@@ -24,60 +24,23 @@ import static pro.tremblay.core.Assertions.assertThat;
 
 public class AmountTest {
 
-    Amount a1 = amnt("1.2");
-    Amount a2 = amnt("1.2");
-    Amount a3 = amnt("1.3");
+    @Test
+    public void amountDouble() {
+        assertThat(amnt(12.1)).isEqualTo("12.10");
+    }
 
     @Test
     public void amountInteger() {
-        assertThat(Amount.amnt(12L)).isEqualTo("12.00");
+        assertThat(amnt(12L)).isEqualTo("12.00");
     }
 
     @Test
     public void amountBigDecimal() {
-        assertThat(Amount.amnt(BigDecimal.valueOf(12))).isEqualTo("12.00");
-    }
-
-    @Test
-    public void isZero() {
-        assertThat(amnt("0.00").isZero()).isTrue();
-        assertThat(amnt("0.01").isZero()).isFalse();
-    }
-
-    @Test
-    public void toBigDecimal() {
-        assertThat(a1).isEqualTo("1.20");
-    }
-
-    @Test
-    public void add() {
-        assertThat(a1.add(a3)).isEqualTo("2.50");
-    }
-
-    @Test
-    public void substract() {
-        assertThat(a3.substract(a1)).isEqualTo("0.10");
-    }
-
-    @Test
-    public void negate() {
-        assertThat(a1.negate()).isEqualTo("-1.20");
-    }
-
-    @Test
-    public void testEquals() {
-        assertThat(a1).isEqualTo(a2);
-        assertThat(a1).isNotEqualTo(a3);
-        assertThat(a1).isNotEqualTo(null);
-    }
-
-    @Test
-    public void testHashCode() {
-        assertThat(a1.hashCode()).isEqualTo(a2.hashCode());
+        assertThat(amnt(BigDecimal.valueOf(12))).isEqualTo("12.00");
     }
 
     @Test
     public void testToString() {
-        assertThat(a1.toString()).isEqualTo("1.20$");
+        assertThat(amnt("1.2").toString()).isEqualTo("1.20$");
     }
 }

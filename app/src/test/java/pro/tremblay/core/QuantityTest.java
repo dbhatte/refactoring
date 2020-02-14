@@ -15,9 +15,27 @@
  */
 package pro.tremblay.core;
 
-public class Assertions extends org.assertj.core.api.Assertions{
+import org.junit.Test;
 
-    public static <T extends Numeric<T>> NumericAssert<T> assertThat(Numeric<T> actual) {
-        return new NumericAssert<T>(actual);
+import java.math.BigDecimal;
+
+import static pro.tremblay.core.Assertions.assertThat;
+import static pro.tremblay.core.Quantity.qty;
+
+public class QuantityTest {
+
+    @Test
+    public void amountInteger() {
+        assertThat(qty(12L)).isEqualTo("12");
+    }
+
+    @Test
+    public void amountBigDecimal() {
+        assertThat(qty(BigDecimal.valueOf(12))).isEqualTo("12");
+    }
+
+    @Test
+    public void testToString() {
+        assertThat(qty(12).toString()).isEqualTo("12");
     }
 }
