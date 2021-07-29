@@ -39,7 +39,7 @@ public class PriceService {
         LocalDate now = LocalDate.now();
         for (Security security : Security.values()) {
             LocalDate start = now.withDayOfYear(1);
-            BigDecimal price = BigDecimal.valueOf(100 + random.nextInt(200));
+            BigDecimal price = BigDecimal.valueOf(100L + random.nextInt(200));
             while(!start.isAfter(now)) {
                 BigDecimal tick = BigDecimal.valueOf(random.nextGaussian()).setScale(2, RoundingMode.HALF_UP);
                 prices.put(getKey(security, start), price.add(tick));

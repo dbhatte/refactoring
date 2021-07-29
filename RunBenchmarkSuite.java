@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import java.lang.System;
 
 /**
  * Script to run the benchmark on multiple git versions of the project.

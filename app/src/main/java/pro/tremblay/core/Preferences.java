@@ -31,16 +31,16 @@ public class Preferences {
         return INSTANCE;
     }
 
-    private final ConcurrentMap<String, String> preferences = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, String> preferenceMap = new ConcurrentHashMap<>();
 
     private Preferences() {}
 
     public void put(String key, String value) {
-        preferences.put(key, value);
+        preferenceMap.put(key, value);
     }
 
     public String getString(String key) {
-        String value = preferences.get(key);
+        String value = preferenceMap.get(key);
         if (value != null) {
             return value;
         }

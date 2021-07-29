@@ -52,6 +52,8 @@ public class ReportingServiceBenchmark {
         System.setProperty("LENGTH_OF_YEAR", "365");
     }
 
+    private final Random random = new Random();
+
     private ReportingService service = new ReportingService();
 
     private Collection<Transaction> transactions;
@@ -75,7 +77,6 @@ public class ReportingServiceBenchmark {
 
         TransactionType[] transactionTypes = TransactionType.values();
 
-        Random random = new Random();
         transactions = random.ints(100, 1, 100)
             .mapToObj(quantity -> {
                 Transaction t = new Transaction();
